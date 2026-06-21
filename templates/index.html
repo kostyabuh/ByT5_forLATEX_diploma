@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Бухонов — голос в LaTeX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <h1>Преобразование голоса в LaTeX</h1>
+      <p class="muted">
+        Сначала речь распознаётся локальной ASR-моделью в русский текст, затем текст преобразуется локальной ByT5-моделью в LaTeX.
+      </p>
+
+      <div class="ready-banner" id="readyBanner">
+        Система загружена и готова к работе.
+      </div>
+
+      <div class="panel">
+        <h2>Демонстрационные примеры</h2>
+        <div class="examples-toolbar">
+          <select id="demoSelect">
+            <option value="">Выбери пример...</option>
+          </select>
+          <button id="btnInsertDemo" type="button">Подставить пример</button>
+        </div>
+        <div id="demoPreview" class="demo-preview"></div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <h2>1. Аудио</h2>
+
+          <div class="row gap">
+            <button id="btnStartRecord" type="button">Начать запись</button>
+            <button id="btnStopRecord" type="button" disabled>Остановить запись</button>
+          </div>
+
+          <div class="spacer"></div>
+
+          <label class="label" for="audioFile">Или загрузи аудиофайл</label>
+          <input id="audioFile" type="file" accept="audio/*">
+
+          <div class="spacer"></div>
+
+          <audio id="audioPreview" controls></audio>
+
+          <div class="row gap wrap">
+            <button id="btnTranscribe" type="button">Распознать речь</button>
+            <button id="btnTranscribeAndLatex" type="button">Распознать и сразу в LaTeX</button>
+          </div>
+
+          <div id="asrStatus" class="status"></div>
+        </div>
+
+        <div class="panel">
+          <h2>2. Распознанный текст</h2>
+          <textarea id="recognizedText" rows="10" placeholder="Здесь появится распознанный текст..."></textarea>
+
+          <div class="row gap wrap">
+            <button id="btnToLatex" type="button">Преобразовать в LaTeX</button>
+            <button id="btnClear" type="button">Очистить</button>
+          </div>
+
+          <div id="latexStatus" class="status"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>3. Результат</h2>
+
+        <label class="label" for="latexOutput">LaTeX-код</label>
+        <textarea id="latexOutput" rows="6" readonly placeholder="Здесь будет LaTeX..."></textarea>
+
+        <div class="row gap wrap">
+          <button id="btnCopyLatex" type="button">Скопировать LaTeX</button>
+          <div id="copyStatus" class="status inline-status"></div>
+        </div>
+
+        <label class="label">Рендер</label>
+        <div id="renderBox" class="render-box"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
